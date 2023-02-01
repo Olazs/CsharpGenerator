@@ -1,0 +1,96 @@
+﻿<Window x:Class="NameGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NameGenerator"
+        mc:Ignorable="d"
+        Title="Name Generator" Height="600" Width="800" MinHeight="500" MinWidth="500" Background="AliceBlue">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="20px"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0" Margin="10" VerticalAlignment="Center"  HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="SurnameLoadButton" Content="Betöltés" Grid.Column="0" Click="NamesLoader"/>
+            <Label Grid.Column="1">
+                <Label.Content>
+                    <Binding ElementName="SurnamesListBox" Path="Items.Count"/>
+                </Label.Content>
+                <Label.ContentStringFormat>
+                    Családnevek: {0}
+                </Label.ContentStringFormat>
+            </Label>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Center"  HorizontalAlignment="Stretch">   
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ForenameLoadButton" Content="Betöltés" Grid.Column="0" Click="NamesLoader"/>
+            <Label Grid.Column="1">
+                <Label.Content>
+                    <Binding ElementName="ForenamesListBox" Path="Items.Count"/>
+                </Label.Content>
+                <Label.ContentStringFormat>
+                    Utónevek: {0}
+                </Label.ContentStringFormat>
+            </Label>
+        </Grid>
+
+        <ListBox x:Name="SurList" Grid.Row="1" Grid.Column="0" Margin="10" MouseDoubleClick="NameDeleter" Background="Bisque"/>
+        <ListBox x:Name="FornList" Grid.Row="1" Grid.Column="2" Margin="10" MouseDoubleClick="NameDeleter" Background="Bisque"/>
+        <ListBox x:Name="CombinedList" Grid.Row="2" Grid.Column="0" Margin="10" MouseDoubleClick="NameDeleter" Background="Orchid"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" MinHeight="100px"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Background="LightSeaGreen" CornerRadius="12" Padding="6" Grid.Row="0" Margin="0 5">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Utónevek száma:"/>
+                        <RadioButton VerticalAlignment="Center" x:Name="rbSelectionOne" Content="Egy" IsChecked="True"/>
+                        <RadioButton VerticalAlignment="Center" x:Name="rbSelectionTwo" Content="Kettő"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Létrehozandó nevek száma"/>
+                        <Border Background="Gray" Padding="1">
+                            <TextBox x:Name="txtbox_NameCount" Background="GreenYellow" HorizontalContentAlignment="Center" Width="30" Height="30" FontStretch="Condensed" Text="{Binding Value, ElementName=sliderNameCount, Mode=TwoWay, FallbackValue=0}" TextAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left" Width="20" Content="0"/>
+                        <Label x:Name="lblMaxNameCount" DockPanel.Dock="Right"/>
+                        <Slider x:Name="sliderValue" Minimum="0" Maximum="0" VerticalAlignment="Center" HorizontalAlignment="Stretch" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding Text, ElementName=txtbox_NameCount, Mode=TwoWay}"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+            <Button Content="Nevek generálása" Grid.Row="1" Margin="2" Click="GenerateNamesButton_Click"/>
+            <Button Content="Generált nevek törlése" Grid.Row="2" Margin="2" Click="DeleteNamesButton_Click"/>
+            <Button Content="Nevek rendezése" Grid.Row="3" Margin="2" Click="SortNamesButton_Click"/>
+            <Button Content="Nevek mentése" Grid.Row="4" Margin="2" Click="SaveNamesButton_Click"/>
+        </Grid>
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+            <StatusBarItem Content="Generált nevek száma"/>
+            <TextBlock Text="{Binding ElementName=NamesListBox, Path=Items.Count}"/>
+            <Separator Margin="10,0"/>
+            <StatusBarItem x:Name="StatusBarSort"/>
+        </StatusBar>
+    </Grid>
+</Window>
